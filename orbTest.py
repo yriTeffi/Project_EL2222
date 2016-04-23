@@ -3,7 +3,7 @@ import cv2
 import RPi.GPIO as GPIO
 
 
-def main():
+def main():    
     #See that LEDs are turned off, no passage
     control_lights(0)
 
@@ -15,14 +15,14 @@ def main():
     tr = cv2.imread('key.jpg',0)
     test = cv2.imread('key2.jpg',0)
 
-    #Create ORB algorithm
+    #Create ORB algorithm to detect something
     orb = cv2.ORB_create()
 
     #Detect keypoints and compute its descriptors
     kp1, desc1 = orb.detectAndCompute(tr, None)
     kp2, desc2 = orb.detectAndCompute(test, None)
 
-    #Create BF matcher
+    #Create Brute Force matcher to match 2 things
     bf = cv2.BFMatcher(cv2.NORM_HAMMING)
     matches = bf.knnMatch(desc1, desc2, k=2)
 
@@ -94,6 +94,8 @@ def control_lights(led_nr):
 
 #Main function which runs the whole door system.
 main()
+nr = int(raw_input("To turn off lights, press 0: "))
+control_lights(nr)
     
     
 
